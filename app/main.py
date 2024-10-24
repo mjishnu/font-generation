@@ -36,5 +36,4 @@ def main(sheet, output_directory, directory=None, config=None, metadata=None):
         shutil.rmtree(directory)
 
 
-
-main("img.jpg", "output", "output")
+main("app/sample/img.jpg", "app/output", "app/output")
