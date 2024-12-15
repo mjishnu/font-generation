@@ -1,4 +1,9 @@
-collect*
+
+fonts/
+uploads/
+config.json
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -165,7 +170,6 @@ cython_debug/
 
 output
 out
-img.jpg
 clear.*
 venv
 __pycache__

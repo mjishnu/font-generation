@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Font Generation App</title>
+    <style>
+      body {
+        font-family: 'Outfit', sans-serif;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #fff;
+        border-bottom: 1px solid #e0e0e0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      
+      header h1 {
+        font-size: 24px;
+        margin: 0;
+        color: #333;
+      }
+      
+      header svg {
+        margin-right: 5px;
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          margin: 20px auto;
+          padding: 20px;
+        }
+      
+        .form-row {
+          flex-direction: column;
+          gap: 10px;
+        }
+      
+        button {
+          width: auto;
+        }
+      }
+      
+      header {
+        height: 35px;
+      }
+      
+      .menu a {
+        text-decoration: none;
+        color: black;
+        margin-left: 20px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <svg width="30px" height="30px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+          <path style="fill: #cccccc; stroke: none" d="M 98,96 C 91,96 90,95 85,83 L 51,2 48,2 19,73 C 10,94 8.3,96 1.7,96 l 0,3 27.3,0 0,-3 c -6,0 -9,-1 -9,-5 0,-2 0,-5 1,-7 l 6,-16 37,0 5,13 c 2,5 3,9 3,11 0,3 -2,4 -10,4 l 0,3 36,0 0,-3 M 30,62 46,22 62,62 30,62" />
+          <path style="fill: #222222; stroke: none" d="M 97,95 C 90,95 89,94 84,82 L 50,1 47,1 18,72 C 9,93 7.3,95 0.7,95 l 0,3 27.3,0 0,-3 c -6,0 -9,-1 -9,-5 0,-2 0,-5 1,-7 l 6,-16 37,0 5,13 c 2,5 3,9 3,11 0,3 -2,4 -10,4 l 0,3 36,0 0,-3 M 29,61 45,21 61,61 29,61" />
+        </svg>
+        <h1>FontGen</h1>
+      </div>
+      <div class="menu">
+        <a href="{% url 'generate_font' %}">Home</a>
+        <a href="{% url 'download_sample' %}">Font Sheet</a>
+      </div>
+    </header>
+
+    {% block content %}
+
+    {% endblock %}
+  </body>
+</html>

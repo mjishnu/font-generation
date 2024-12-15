@@ -2,9 +2,9 @@ import os
 import shutil
 import tempfile
 
-from bmptosvg import BMPtoSVG
-from sheettobmp import SHEETtoBMP
-from svgtottf import SVGtoTTF
+from .bmptosvg import BMPtoSVG
+from .sheettobmp import SHEETtoBMP
+from .svgtottf import SVGtoTTF
 
 
 def run(sheet, output_directory, characters_dir, config, metadata):
@@ -34,6 +34,3 @@ def main(sheet, output_directory, directory=None, config=None, metadata=None):
 
     if isTempdir:
         shutil.rmtree(directory)
-
-
-main("app/sample/img.jpg", "app/output", "app/output")

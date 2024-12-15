@@ -1,0 +1,77 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+  <style>
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+    
+    .success-box {
+      background-color: #f6d8d3;
+      padding: 40px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .success-box h1 {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    .success-box p {
+      margin-bottom: 30px;
+      color: #333;
+    }
+    
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .button-container a {
+      background-color: #d94729;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button-container a:hover {
+      background-color: #bb3d21;
+    }
+    
+    .return-button {
+      display: inline-block;
+      padding: 8px 15px;
+      border: 1px solid #333;
+      color: black;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .return-button:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+  <div class="main-container">
+    <div class="success-box">
+      <h1>Font Generation Successful</h1>
+      <p>Your font has been successfully generated. You can now download your font file from the provided link.</p>
+      <div class="button-container">
+        <a href="{{ download_url }}">Download TTF</a>
+      </div>
+      <a href="{% url 'generate_font' %}" class="return-button">Return to Generate Font Form</a>
+    </div>
+  </div>
+{% endblock %}

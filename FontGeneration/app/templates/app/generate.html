@@ -1,0 +1,146 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+  <style>
+    .container {
+      width: 80%;
+      max-width: 1300px;
+      margin: 30px auto;
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      min-height: 200px;
+    }
+    
+    .container h2 {
+      margin: 0 0 20px 0;
+      font-size: 28px;
+      color: #333;
+    }
+    
+    form label {
+      font-weight: bold;
+      color: #444;
+      margin-bottom: 5px;
+      display: block;
+    }
+    
+    form input[type='text'],
+    form input[type='number'],
+    form input[type='file'] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    
+    form input[type='file']::-webkit-file-upload-button {
+      background-color: #d82c0d;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+    }
+    
+    form input[type='file']::-webkit-file-upload-button:hover {
+      background-color: #b0250a;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .form-row > div {
+      flex: 1;
+    }
+    
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    button {
+      background-color: #d82c0d;
+      color: #fff;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    
+    button:hover {
+      background-color: #b0250a;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+  <div class="container">
+    <h2>Generate Font</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label for="id_image_file">Upload Image File</label>
+      {{ form.image_file }}
+
+      <label for="id_filename">Filename</label>
+      {{ form.filename }}
+      <div class="form-row">
+        <div>
+          <label for="id_lang">Language</label>
+          {{ form.lang }}
+        </div>
+        <div>
+          <label for="id_threshold_value">Threshold Value</label>
+          {{ form.threshold_value }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label for="id_ascent">Ascent</label>
+          {{ form.ascent }}
+        </div>
+        <div>
+          <label for="id_descent">Descent</label>
+          {{ form.descent }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label for="id_em">EM</label>
+          {{ form.em }}
+        </div>
+        <div>
+          <label for="id_encoding">Encoding</label>
+          {{ form.encoding }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="id_style">Style</label>
+          {{ form.style }}
+        </div>
+        <div>
+          <label for="id_copyright">Copyright</label>
+          {{ form.copyright }}
+        </div>
+      </div>
+      <div class="button-container">
+        <button type="submit">Generate Font</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
