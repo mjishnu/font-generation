@@ -64,10 +64,15 @@ def generate_font(request):
             main(image_path, output_dir, config=config_path)
 
             # Get the generated font file path
-            font_filename = f"{form.cleaned_data['filename']}.ttf"
-            font_url = os.path.join(settings.MEDIA_URL, "fonts", font_filename)
-
-            return render(request, "app/success.html", {"download_url": font_url})
+            font_name = form.cleaned_data["filename"]
+            font_url = os.path.join(
+                settings.MEDIA_URL, "fonts", f"{font_name}.ttf"
+            ).replace("\\", "/")
+            return render(
+                request,
+                "app/success.html",
+                {"download_url": font_url, "font_name": font_name},
+            )
     else:
         form = FontGenerationForm()
     return render(request, "app/generate.html", {"form": form})
