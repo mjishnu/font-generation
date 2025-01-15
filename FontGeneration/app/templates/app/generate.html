@@ -85,62 +85,182 @@
       background-color: #b0250a;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
     }
+    .terminal {
+      display: none;
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+      border-radius: 8px;
+      height: 300px;
+      overflow-y: auto;
+    }
+    
+    .terminal-text {
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+    
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background: #0f0;
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+    .progress {
+      width: 100%;
+      height: 4px;
+      background: #333;
+      margin: 10px 0;
+      border-radius: 2px;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: #0f0;
+      transition: width 0.5s ease;
+      border-radius: 2px;
+    }
+    
+    .terminal-line {
+      margin-bottom: 5px;
+    }
   </style>
+  <script>
+    const terminalMessages = [
+      { text: 'Starting process...', progress: 15 },
+      { text: 'Processing...', progress: 35 },
+      { text: 'Converting...', progress: 65 },
+      { text: 'Almost done...', progress: 85 },
+      { text: 'Finishing up...', progress: 95 }
+    ]
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form')
+      const generateFont = document.getElementById('generate-font')
+      const terminal = document.getElementById('terminal')
+      let currentIndex = 0
+    
+      function updateProgress(progress) {
+        const progressBar = document.querySelector('.progress-bar')
+        progressBar.style.width = `${progress}%`
+      }
+    
+      function typeWriter(messageObj, callback) {
+        const terminalText = document.getElementById('terminalText')
+        terminalText.innerHTML += `<div class="terminal-line">${messageObj.text}</div>`
+        updateProgress(messageObj.progress)
+        if (callback) setTimeout(callback, 800)
+      }
+    
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms))
+      }
+    
+      async function showNextMessage() {
+        if (currentIndex < terminalMessages.length) {
+          typeWriter(terminalMessages[currentIndex], async () => {
+            if (terminalMessages[currentIndex].text === 'Processing...') {
+              await sleep(1500)
+            } else if (terminalMessages[currentIndex].text === 'Converting...') {
+              await sleep(1000)
+            } else if (terminalMessages[currentIndex].text === 'Almost done...') {
+              await sleep(500)
+            }
+            currentIndex++
+            showNextMessage()
+          })
+        } else {
+          setTimeout(() => form.submit(), 500)
+        }
+      }
+    
+      form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        generateFont.style.display = 'none'
+        terminal.style.display = 'block'
+        // Don't overwrite terminal innerHTML, just clear terminalText
+        document.getElementById('terminalText').innerHTML = ''
+        document.querySelector('.progress-bar').style.width = '0%'
+        showNextMessage()
+      })
+    })
+  </script>
   <div class="container">
-    <h2>Generate Font</h2>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
+    <div id="terminal" class="terminal">
+      <div class="terminal-text" id="terminalText"></div>
+      <div class="progress">
+        <div class="progress-bar" style="width: 0%"></div>
+      </div>
+      <span class="cursor"></span>
+    </div>
+    <div id="generate-font">
+      <h2>Generate Font</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-      <label for="id_image_file">Upload Image File</label>
-      {{ form.image_file }}
+        <label for="id_image_file">Upload Font Sheet</label>
+        {{ form.image_file }}
 
-      <label for="id_filename">Filename</label>
-      {{ form.filename }}
-      <div class="form-row">
-        <div>
-          <label for="id_lang">Language</label>
-          {{ form.lang }}
+        <label for="id_filename">Filename</label>
+        {{ form.filename }}
+        <div class="form-row">
+          <div>
+            <label for="id_lang">Language</label>
+            {{ form.lang }}
+          </div>
+          <div>
+            <label for="id_threshold_value">Threshold Value</label>
+            {{ form.threshold_value }}
+          </div>
         </div>
-        <div>
-          <label for="id_threshold_value">Threshold Value</label>
-          {{ form.threshold_value }}
-        </div>
-      </div>
 
-      <div class="form-row">
-        <div>
-          <label for="id_ascent">Ascent</label>
-          {{ form.ascent }}
+        <div class="form-row">
+          <div>
+            <label for="id_ascent">Ascent</label>
+            {{ form.ascent }}
+          </div>
+          <div>
+            <label for="id_descent">Descent</label>
+            {{ form.descent }}
+          </div>
         </div>
-        <div>
-          <label for="id_descent">Descent</label>
-          {{ form.descent }}
-        </div>
-      </div>
 
-      <div class="form-row">
-        <div>
-          <label for="id_em">EM</label>
-          {{ form.em }}
+        <div class="form-row">
+          <div>
+            <label for="id_em">EM</label>
+            {{ form.em }}
+          </div>
+          <div>
+            <label for="id_encoding">Encoding</label>
+            {{ form.encoding }}
+          </div>
         </div>
-        <div>
-          <label for="id_encoding">Encoding</label>
-          {{ form.encoding }}
+        <div class="form-row">
+          <div>
+            <label for="id_style">Style</label>
+            {{ form.style }}
+          </div>
+          <div>
+            <label for="id_copyright">Copyright</label>
+            {{ form.copyright }}
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label for="id_style">Style</label>
-          {{ form.style }}
+        <div class="button-container">
+          <button type="submit">Generate Font</button>
         </div>
-        <div>
-          <label for="id_copyright">Copyright</label>
-          {{ form.copyright }}
-        </div>
-      </div>
-      <div class="button-container">
-        <button type="submit">Generate Font</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 {% endblock %}
