@@ -75,8 +75,6 @@ class SHEETtoBMP:
             Final rows*cols contours in form of list of list arranged as:
             sorted_characters[x][y] denotes contour at x, y position in the input grid.
         """
-        # TODO Raise errors and suggest where the problem might be
-
         # Read the image and convert to grayscale
         image = cv2.imread(sheet_image)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
