@@ -5,6 +5,10 @@ import sys
 import uuid
 
 
+class FontForgeNotFound(Exception):
+    pass
+
+
 class SVGtoTTF:
     def convert(self, directory, outdir, config, metadata=None):
         """Convert a directory with SVG images to TrueType Font.
@@ -23,16 +27,15 @@ class SVGtoTTF:
         metadata : dict
             Dictionary containing the metadata (filename, family or style)
         """
-        import platform
         import subprocess
+        import shutil
 
+        if shutil.which("fontforge") is None:
+            raise FontForgeNotFound("FontForge is either not installed or not in path")
         subprocess.run(
-            (
-                ["ffpython"]
-                if platform.system() == "Windows"
-                else ["fontforge", "-script"]
-            )
-            + [
+            [
+                "fontforge",
+                "-script",
                 os.path.abspath(__file__),
                 config,
                 directory,
@@ -174,10 +177,7 @@ class SVGtoTTF:
         self.font.generate(outfile)
 
     def convert_main(self, config_file, directory, outdir, metadata):
-        try:
-            self.font = fontforge.font()
-        except:
-            import fontforge
+        import fontforge
 
         with open(config_file) as f:
             self.config = json.load(f)
